@@ -1,0 +1,53 @@
+.page-container {
+    padding: 20px;
+  }
+  
+  .content-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .page-title {
+    margin-bottom: 20px;
+  }
+  
+  .facility-table,
+  .transaction-table {
+    width: 100%;
+    max-width: 100%; /* Ensure table takes full width */
+    border-collapse: collapse;
+  }
+  
+  .facility-table th,
+  .facility-table td,
+  .transaction-table th,
+  .transaction-table td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .facility-table th,
+  .transaction-table th {
+    background-color: #f8f9fa;
+  }
+  
+  .available-row {
+    background-color: #dff0d8;
+  }
+  
+  .occupied-row {
+    background-color: #f2dede;
+  }
+  
+  .wider-table {
+    width: 100%; /* Ensure full-width for tables */
+    max-width: 100%; /* Prevent tables from being constrained */
+  }
+  
+  .btn-warning {
+    background-color: orange !important;
+    border-color: orange !important;
+  }
+  

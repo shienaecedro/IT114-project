@@ -1,0 +1,15 @@
+.search-bar {
+    max-width: 50%; /* Adjust the percentage as needed */
+    margin: 0 auto; /* Center the search bar */
+  }
+  
+  .search-bar .btn-primary {
+    background-color: orange; /* Change the background color to orange */
+    border-color: orange; /* Change the border color to match */
+  }
+  
+  .search-bar .btn-primary:hover {
+    background-color: darkorange; /* Change the background color on hover */
+    border-color: darkorange; /* Change the border color on hover */
+  }
+  

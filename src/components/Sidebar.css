@@ -1,0 +1,10 @@
+.sidebar-logo {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 20px; /* Add some space below the logo */
+  }
+  
+  .active-link {
+    background-color: orange;
+  }
+  

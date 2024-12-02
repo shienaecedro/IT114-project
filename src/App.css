@@ -1,0 +1,16 @@
+/* Add these styles to ensure search results are visible */
+.search-results {
+    background-color: white; /* Ensure a white background for visibility */
+    color: black; /* Ensure black text color for contrast */
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .search-results ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .search-results li {
+    margin-bottom: 10px;
+  }

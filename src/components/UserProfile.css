@@ -1,0 +1,69 @@
+/* UserProfile.css */
+.user-profile {
+  color: white; /* Set text color to white */
+  padding: 20px;
+  background-color: #2c3e50; /* Dark background color */
+  border-radius: 10px;
+}
+
+.user-profile h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #ecf0f1;
+}
+
+.user-profile .profile-picture {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #34495e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ecf0f1;
+}
+
+.user-profile .profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-profile .profile-picture input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.user-profile .profile-placeholder {
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.user-profile .form-group {
+  margin-bottom: 15px;
+}
+
+.user-profile .form-control {
+  border-radius: 5px;
+}
+
+.user-profile .btn-primary {
+  background-color: #3498db;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.user-profile .btn-primary:hover {
+  background-color: #2980b9;
+}

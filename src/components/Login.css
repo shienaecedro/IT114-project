@@ -1,74 +1,114 @@
 body {
-    background-color: #000;
-  }
-  
-  .login-container {
-    height: 100vh;
-  }
-  
-  .login-container .text-center {
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .welcome-text {
-    color: #ff8c00;
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
-  }
-  
-  .login-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  
-  .login-form h2 {
-    color: #ff8c00;
-  }
-  
-  .login-form .form-label {
-    color: #ff8c00;
-  }
-  
-  .login-form .form-control {
-    border: 1px solid #ff8c00;
-  }
-  
-  .login-form .btn-warning {
-    background-color: #ff8c00;
-    border-color: #ff8c00;
-  }
-  
-  .login-form .btn-warning:hover {
-    background-color: #e07b00;
-    border-color: #e07b00;
-  }
-  
-  .login-form .btn-link {
-    color: #ff8c00;
-  }
-  
-  .login-form .btn-link:hover {
-    color: #e07b00;
-  }
-  
-  .custom-dropdown .dropdown-toggle {
-    background-color: #fff !important;
-    color: #ff8c00 !important;
-    border: 1px solid #ff8c00 !important;
-  }
-  
-  .custom-dropdown .dropdown-toggle:hover,
-  .custom-dropdown .dropdown-toggle:focus,
-  .custom-dropdown .dropdown-toggle:active {
-    background-color: #fff !important;
-    color: #e07b00 !important;
-    border: 1px solid #e07b00 !important;
-  }
-  
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #1E1E1E;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-side {
+  background-color: #1E1E1E;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-side {
+  background-color: #fff;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-container {
+  text-align: center;
+  color: #ff8c00;
+}
+
+.welcome-text {
+  color: #ff8c00;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-form h2 {
+  color: #000;
+}
+
+.login-form .form-label {
+  color: #000;
+}
+
+.login-form .form-control {
+  border: 1px solid #ccc;
+}
+
+.login-form .btn-warning {
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+  color: white;
+}
+
+.login-form .btn-warning:hover {
+  background-color: #e07b00;
+  border-color: #e07b00;
+}
+
+.login-form .btn-link {
+  color: #ff8c00;
+}
+
+.login-form .btn-link:hover {
+  color: #e07b00;
+}
+
+.custom-dropdown { 
+  display: flex; 
+  justify-content: center;
+}
+
+.custom-dropdown .dropdown-toggle {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+}
+
+.custom-dropdown .dropdown-toggle:hover,
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:active {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+}
+
+.create-account-link {
+  color: #ff8c00;
+  text-align: center;
+  display: block;
+}
+
+.highlighted-link {
+  color: #ff8c00;
+}
+
+.highlighted-link:hover {
+  color: #e07b00;
+}
+

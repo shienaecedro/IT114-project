@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Container,
-  Form,
-  Button,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
+import { Container, Form, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import ChatIcon from "./ChatIcon";
 import { Item } from "../types";
 import "./Login.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import logo from '../assets/logo.png'; // Import your logo image
 
 interface LoginProps {
   onLogin: (username: string, userRole: string) => void;
@@ -30,18 +26,22 @@ const Login: React.FC<LoginProps> = ({ onLogin, items }) => {
   };
 
   return (
-    <Container className="login-container d-flex justify-content-center align-items-center">
-      <div className="text-center">
-        <h1 className="welcome-text">
-          CCIS Facility Booking and Borrowing System
-        </h1>
+    <div className="login-container">
+      <div className="left-side">
+        <div className="logo-container">
+          <div className="logo">
+            <img src={logo} alt="Logo" className="logo-image" />
+          </div>
+        </div>
+      </div>
+      <div className="right-side">
         <Form className="login-form">
           <h2 className="text-center mb-4">Login</h2>
-          <Form.Group controlId="formUsername">
-            <Form.Label>Username</Form.Label>
+          <Form.Group controlId="formEmail">
+            <Form.Label>Email</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter username"
+              type="email"
+              placeholder="email@example.com"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -50,37 +50,29 @@ const Login: React.FC<LoginProps> = ({ onLogin, items }) => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter password"
+              placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
           <DropdownButton
             id="dropdown-role"
-            title={`Role: ${role}`}
-            className="mt-3 custom-dropdown"
+            title={`${role}`}
+            className="mt-3 custom-dropdown center-dropdown"
           >
             <Dropdown.Item onClick={() => setRole("user")}>User</Dropdown.Item>
-            <Dropdown.Item onClick={() => setRole("admin")}>
-              Admin
-            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setRole("admin")}>Admin</Dropdown.Item>
           </DropdownButton>
-          <Button
-            variant="warning"
-            className="mt-4 w-100"
-            onClick={handleLogin}
-          >
+          <Button variant="warning" className="mt-4 w-100" onClick={handleLogin}>
             Login
           </Button>
+          <Form.Text className="create-account-link mt-3">
+            Don’t have an account? <a className="highlighted-link" onClick={() => navigate("/register")}>Sign Up</a>.
+          </Form.Text>
         </Form>
-        <div className="mt-3">
-          <Button variant="link" onClick={() => navigate("/register")}>
-            Register
-          </Button>
-        </div>
+        <ChatIcon items={items} />
       </div>
-      <ChatIcon items={items} /> {/* Pass items to ChatIcon */}
-    </Container>
+    </div>
   );
 };
 

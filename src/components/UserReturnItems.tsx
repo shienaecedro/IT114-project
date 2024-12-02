@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { Item, Transaction } from "../types";
+import "./Dashboard.css";
 
 interface UserReturnItemsProps {
   items: Item[];
@@ -63,7 +64,7 @@ const UserReturnItems: React.FC<UserReturnItemsProps> = ({
 
   return (
     <div>
-      <h2>Return Items</h2>
+      <h2 className="header-text">Return Items</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

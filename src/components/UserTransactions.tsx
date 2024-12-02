@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { Transaction } from "../types"; // Import interface from types file
+import "./Dashboard.css";
 
 interface UserTransactionsProps {
   transactions: Transaction[];
@@ -12,12 +13,12 @@ const UserTransactions: React.FC<UserTransactionsProps> = ({
   console.log("Transactions data: ", transactions); // Add this line for debugging
 
   if (transactions.length === 0) {
-    return <p>No transactions found.</p>; // Display message if no transactions
+    return <p className="no-transactions">No transactions found.</p>; // Display message if no transactions
   }
 
   return (
     <div>
-      <h2>Previous Transactions</h2>
+      <h2 className="header-text">Previous Transactions</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

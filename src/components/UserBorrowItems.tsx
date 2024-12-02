@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { Item, Transaction } from "../types";
+import "./Dashboard.css";
 
 interface UserBorrowItemsProps {
   items: Item[];
@@ -63,7 +64,7 @@ const UserBorrowItems: React.FC<UserBorrowItemsProps> = ({
 
   return (
     <div>
-      <h2>Borrow Items</h2>
+      <h2 className="header-text">Borrow Items</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

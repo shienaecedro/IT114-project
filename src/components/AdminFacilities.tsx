@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Form, Modal } from "react-bootstrap";
+import "./Dashboard.css";
 
 interface Facility {
   id: number;
@@ -80,7 +81,7 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
 
   return (
     <div>
-      <h2>Manage Facilities</h2>
+      <h2 className="header-text">Manage Facilities</h2>
       <Button onClick={() => handleShowModal()}>Add Facility</Button>
       <Table striped bordered hover>
         <thead>

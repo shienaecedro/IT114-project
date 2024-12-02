@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Item, Facility, Transaction } from "../types"; // Import interfaces from types file
+import "./Dashboard.css";
 
 interface AdminDashboardProps {
   username: string;
@@ -25,7 +26,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     <Container fluid>
       <Row>
         <Col>
-          <h1>Welcome, {username}!</h1>
+          <h1 className="header-text">Welcome, {username}!</h1>
         </Col>
       </Row>
       <Row className="mt-4">

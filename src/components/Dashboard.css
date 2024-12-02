@@ -1,42 +1,14 @@
 /* Dashboard.css */
+.header-text {
+  color: orange; /* Change text color to orange */
+  font-size: 24px; /* Ensure uniform font size */
+  font-weight: bold; /* Make the text bold */
+  margin-bottom: 20px; /* Add some space below the header */
+}
 
-/* Creating the split background with 10% orange on both sides and 80% black in the middle */
-.dashboard-container {
-    background: linear-gradient(to right, #ff7f00 10%, #000000 10%, #000000 90%, #ff7f00 90%);
-    height: 100vh; /* Full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff; /* Default text color for the black section */
-  }
-  
-  /* The title will be orange */
-  .dashboard-title {
-    font-family: 'Poppins', sans-serif; /* Font Style */
-    font-size: 3rem; /* Large font size for the title */
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%; /* Ensure the title spans the full width */
-    color: #ff7f00; /* Orange color for the title */
-  }
-  
-  /* The welcome message text will be white by default (on the black background) */
-  .welcome-message {
-    font-family: 'Roboto', sans-serif; /* Font Style */
-    font-size: 1.5rem; /* Moderate font size */
-    color: #ffffff; /* White color for the welcome message */
-    text-align: center;
-    width: 100%; /* Ensure the text spans the full width */
-  }
-  
-  /* Optional: Responsive Design for small screens */
-  @media (max-width: 768px) {
-    .dashboard-title {
-      font-size: 2.5rem;
-    }
-  
-    .welcome-message {
-      font-size: 1.2rem;
-    }
-  }
-  
+.no-transactions {
+  color: orange; /* Change text color to orange */
+  font-size: 24px; /* Larger font size */
+  text-align: center; /* Center the text */
+  margin-top: 50px; /* Add some space above the message */
+}

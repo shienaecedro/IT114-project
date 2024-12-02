@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { Transaction } from "../types"; // Import interface from types file
+import "./Dashboard.css";
 
 interface AdminTransactionsProps {
   transactions: Transaction[];
@@ -11,7 +12,7 @@ const AdminTransactions: React.FC<AdminTransactionsProps> = ({
 }) => {
   return (
     <div>
-      <h2>All Transactions</h2>
+      <h2 className="header-text">All Transactions</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

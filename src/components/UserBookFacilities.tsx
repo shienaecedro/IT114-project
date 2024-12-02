@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { Facility, Transaction } from "../types"; // Import interfaces from types file
+import "./Dashboard.css";
 
 interface UserBookFacilitiesProps {
   facilities: Facility[];
@@ -85,7 +86,7 @@ const UserBookFacilities: React.FC<UserBookFacilitiesProps> = ({
 
   return (
     <div>
-      <h2>Book Facilities</h2>
+      <h2 className="header-text">Book Facilities</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

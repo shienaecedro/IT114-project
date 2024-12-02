@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Form, Modal } from "react-bootstrap";
 import { Item } from "../types";
+import "./Dashboard.css";
 
 interface AdminItemsProps {
   items: Item[];
@@ -45,7 +46,7 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
 
   return (
     <div>
-      <h2>Manage Items</h2>
+      <h2 className="header-text">Manage Items</h2>
       <Button onClick={() => handleShowModal()}>Add Item</Button>
       <Table striped bordered hover>
         <thead>

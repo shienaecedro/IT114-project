@@ -25,6 +25,7 @@ export interface Transaction {
     category: string;
     brand: string;
     model: string;
+    image?: string;
   };
   type: "borrow" | "return" | "book";
   date: string;

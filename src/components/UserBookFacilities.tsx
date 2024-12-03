@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Table, Button, Modal } from "react-bootstrap";
-import { Facility, Transaction } from "../types"; // Import interfaces from types file
+import { Card, Button, Modal, Row, Col, Badge, Pagination } from "react-bootstrap";
+import { Facility, Transaction } from "../types";
 import "./Dashboard.css";
 
 interface UserBookFacilitiesProps {
@@ -20,6 +20,13 @@ const UserBookFacilities: React.FC<UserBookFacilitiesProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentFacility, setCurrentFacility] = useState<Facility | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const facilitiesPerPage = 9;
+  const totalPages = Math.ceil(facilities.length / facilitiesPerPage);
+  const startIndex = (currentPage - 1) * facilitiesPerPage;
+  const endIndex = startIndex + facilitiesPerPage;
+  const paginatedFacilities = facilities.slice(startIndex, endIndex);
 
   const handleShowModal = (facility: Facility) => {
     setCurrentFacility(facility);
@@ -85,57 +92,70 @@ const UserBookFacilities: React.FC<UserBookFacilitiesProps> = ({
   };
 
   return (
-    <div>
+    <div className="container-fluid">
       <h2 className="header-text">Book Facilities</h2>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Available</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {facilities.map((facility) => (
-            <tr key={facility.id}>
-              <td>{facility.id}</td>
-              <td>{facility.name}</td>
-              <td>{facility.location}</td>
-              <td>{facility.available ? "Yes" : "Occupied"}</td>
-              <td>
-                {facility.image && (
-                  <img src={facility.image} alt="Facility" width="100" />
-                )}
-              </td>
-              <td>
-                {facility.available ? (
-                  <Button
-                    variant="success"
-                    onClick={() => handleShowModal(facility)}
-                  >
-                    Book
-                  </Button>
-                ) : (
-                  <>
-                    <Button variant="secondary" disabled>
-                      Occupied
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleReleaseFacility(facility)}
-                    >
-                      Release
-                    </Button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Row>
+        {paginatedFacilities.map((facility) => (
+          <Col key={facility.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+            <Card className="content-card">
+              {facility.image && <Card.Img variant="top" src={facility.image} />}
+              <Card.Body>
+                <Card.Title>{facility.name}</Card.Title>
+                <Card.Text>
+                  <Badge bg="secondary" className="me-2">
+                    {facility.location}
+                  </Badge>
+                  <Badge bg={facility.available ? "success" : "danger"} className="me-2">
+                    {facility.available ? "Available" : "Occupied"}
+                  </Badge>
+                  <div className="d-flex justify-content-between mt-3">
+                    {facility.available ? (
+                      <Button
+                        variant="success"
+                        onClick={() => handleShowModal(facility)}
+                      >
+                        Book
+                      </Button>
+                    ) : (
+                      <Button variant="danger" onClick={() => handleReleaseFacility(facility)}>
+                        Release
+                      </Button>
+                    )}
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <Pagination className="justify-content-center">
+        <Pagination.First
+          onClick={() => setCurrentPage(1)}
+          disabled={currentPage === 1}
+        />
+        <Pagination.Prev
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        />
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Pagination.Item
+            key={i + 1}
+            active={i + 1 === currentPage}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        />
+        <Pagination.Last
+          onClick={() => setCurrentPage(totalPages)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

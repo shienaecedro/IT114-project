@@ -64,7 +64,7 @@ const UserReturnItems: React.FC<UserReturnItemsProps> = ({
 
   return (
     <div>
-      <h2 className="header-text">Return Items</h2>
+      <h2 className="mt-3 header-text">Return Items</h2>
       <Table striped bordered hover>
         <thead>
           <tr>

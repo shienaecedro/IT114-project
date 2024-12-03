@@ -24,6 +24,8 @@ import AdminDashboard from "./components/AdminDashboard"; // Import AdminDashboa
 import UserProfile from "./components/UserProfile"; // Import UserProfile component
 import { Item, Facility, Transaction } from "./types"; // Import interfaces from types file
 import "./App.css";
+import logo from './logo.png';
+import { FaTachometerAlt, FaBox, FaBuilding, FaExchangeAlt, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 
 const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
   role,
@@ -31,36 +33,35 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
 }) => {
   return (
     <div className="sidebar d-flex flex-column bg-dark text-light vh-100">
+      <div className="text-center mt-4">
+        <img src={logo} alt="TechTrack Logo" className="sidebar-logo" />
+      </div>
       <Nav className="flex-column mt-5">
         <Nav.Item>
           <Nav.Link as={Link} to="/dashboard" className="text-light">
-            Dashboard
+            <FaTachometerAlt className="mr-2" /> Dashboard
           </Nav.Link>
         </Nav.Item>
         {role === "admin" && (
           <>
             <Nav.Item>
               <Nav.Link as={Link} to="/admin/items" className="text-light">
-                Items
+                <FaBox className="mr-2" /> Items
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/admin/facilities" className="text-light">
-                Facilities
+                <FaBuilding className="mr-2" /> Facilities
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/admin/transactions"
-                className="text-light"
-              >
-                Transactions
+              <Nav.Link as={Link} to="/admin/transactions" className="text-light">
+                <FaExchangeAlt className="mr-2" /> Transactions
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/profile" className="text-light">
-                Profile
+                <FaUserAlt className="mr-2" /> Profile
               </Nav.Link>
             </Nav.Item>
           </>
@@ -68,44 +69,28 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
         {role === "user" && (
           <>
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/user/borrow-items"
-                className="text-light"
-              >
-                Borrow Items
+              <Nav.Link as={Link} to="/user/borrow-items" className="text-light">
+                <FaBox className="mr-2" /> Borrow Items
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/user/book-facilities"
-                className="text-light"
-              >
-                Book Facility
+              <Nav.Link as={Link} to="/user/book-facilities" className="text-light">
+                <FaBuilding className="mr-2" /> Book Facility
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/user/return-items"
-                className="text-light"
-              >
-                Returns
+              <Nav.Link as={Link} to="/user/return-items" className="text-light">
+                <FaSignOutAlt className="mr-2" /> Returns
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/user/transactions"
-                className="text-light"
-              >
-                Transactions
+              <Nav.Link as={Link} to="/user/transactions" className="text-light">
+                <FaExchangeAlt className="mr-2" /> Transactions
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/profile" className="text-light">
-                Profile
+                <FaUserAlt className="mr-2" /> Profile
               </Nav.Link>
             </Nav.Item>
           </>
@@ -113,19 +98,16 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
       </Nav>
       <Nav className="mt-auto mb-3">
         <Nav.Item>
-          <Nav.Link
-            as={Link}
-            to="/login"
-            className="text-light"
-            onClick={onLogout}
-          >
-            Logout
+          <Nav.Link as={Link} to="/login" className="text-light" onClick={onLogout}>
+            <FaSignOutAlt className="mr-2" /> Logout
           </Nav.Link>
         </Nav.Item>
       </Nav>
     </div>
   );
 };
+
+
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

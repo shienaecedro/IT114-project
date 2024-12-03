@@ -40,7 +40,7 @@ const Transactions: React.FC = () => {
   const uniqueBrands = Array.from(new Set(transactions.map((transaction) => transaction.item.brand)));
 
   return (
-    <Container className="page-container mx-2">
+    <Container className="transaction-table page-container mx-2">
       <Row className="mb-3 justify-content-end">
         <Col md="auto">
           <Form.Group controlId="categoryFilter">

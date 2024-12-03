@@ -1,48 +1,43 @@
-/* Sidebar CSS */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background-color: #343a40;
-  color: #fff;
-  height: 100vh;
+/* Set the width of the sidebar */
+#layoutSidenav_nav {
+  width: 1000px; /* Adjust this value for the desired width */
+  background-color: #343a40; /* Optional: Adjust the background color if needed */
 }
 
-.sidebar-logo {
-  width: 100px; /* Adjust size as needed */
-  height: auto;
-}
-
-.nav-link {
-  color: #fff;
-  padding: 10px 15px;
-}
-
-.nav-link:hover {
-  background-color: #495057;
-  color: #fff;
-}
-
-.active-link {
-  background-color: #007bff;
-  color: #fff;
+/* Sidebar styling for smaller screens */
+@media (max-width: 768px) {
+  #layoutSidenav_nav {
+    width: 200px; /* Adjust for smaller screen size */
+  }
 }
 
 .sb-sidenav-menu {
-  flex-grow: 1;
+  padding-top: 20px;
 }
 
-.sb-sidenav-footer {
-  padding: 1rem;
-  background-color: #343a40;
-  text-align: center;
+/* Adjust the active link */
+.active-link {
+  background-color: #007bff; /* Active link color */
+  color: #fff;
+}
+
+/* Sidebar link styling */
+.nav-link {
+  color: #c4c6c9;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .sb-nav-link-icon {
   margin-right: 10px;
 }
 
-/* Additional styling for icons */
-.sb-nav-link-icon i {
-  font-size: 1rem;
-  vertical-align: middle;
+/* Customize the footer styling of the sidebar */
+.sb-sidenav-footer {
+  background-color: #343a40;
+  padding: 10px;
+  color: #c4c6c9;
+  text-align: center;
 }

@@ -71,19 +71,19 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
   };
 
   return (
-    <Container className="user-profile d-flex align-items-center justify-content-center vh-100">
-      <Row className="justify-content-md-center">
-        <Col md={6}>
+    <Container className="user-profile">
+      <Row className="justify-content-md-center mt-4">
+        <Col className="form-column">
           <h2 className="text-center">User Profile</h2>
           {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="profilePicture" className="text-center">
+            <Form.Group controlId="profilePicture">
               <div className="profile-picture-container">
                 {userInfo.profilePicture ? (
                   <img
                     src={userInfo.profilePicture}
                     alt="Profile"
-                    className="profile-picture img-thumbnail"
+                    className="profile-picture"
                   />
                 ) : (
                   <div className="profile-placeholder">Upload Photo</div>
@@ -93,7 +93,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
                   accept="image/*"
                   onChange={handleImageUpload}
                   className="file-input"
-                  aria-label="Upload profile picture"
                 />
               </div>
             </Form.Group>
@@ -124,7 +123,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3 w-100">
+            <Button variant="primary" type="submit" className="mt-3">
               Save Changes
             </Button>
           </Form>

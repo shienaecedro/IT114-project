@@ -20,6 +20,7 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({ facilities, setFacili
   const [showModal, setShowModal] = useState(false);
   const [currentFacility, setCurrentFacility] = useState<Partial<Facility>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filterStatus, setFilterStatus] = useState<string>("all"); // "all", "available", "occupied"
 
   const handleShowModal = (facility?: Facility) => {
     setCurrentFacility(facility || {});
@@ -76,16 +77,37 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({ facilities, setFacili
   const totalPages = Math.ceil(facilities.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedFacilities = facilities.slice(startIndex, endIndex);
+
+  // Filter facilities based on the selected availability status
+  const filteredFacilities =
+    filterStatus === "all"
+      ? facilities
+      : facilities.filter((facility) => (filterStatus === "available" ? facility.available : !facility.available));
+
+  const paginatedFacilities = filteredFacilities.slice(startIndex, endIndex);
 
   return (
     <div className="container-fluid">
       <h2 className="header-text">Facilities</h2>
-      <div className="pe-2 d-flex justify-content-between mb-3">
+      
+      {/* Filter Dropdown */}
+      <div className="d-flex justify-content-between mb-3">
+        <Form.Control
+          as="select"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="w-auto"
+        >
+          <option value="all">All</option>
+          <option value="available">Available</option>
+          <option value="occupied">Occupied</option>
+        </Form.Control>
+
         <Button onClick={() => handleShowModal()} className="btn-orange">
           <FaPlus className="me-2" /> Add Facility
         </Button>
       </div>
+
       <Row>
         {paginatedFacilities.map((facility) => (
           <Col key={facility.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
@@ -97,18 +119,22 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({ facilities, setFacili
                   <Badge bg="secondary" className="me-2">
                     {facility.location}
                   </Badge>
-                  <Badge bg="secondary" className="me-2">
-                    Availablity: {facility.available ? "Occupied" : "Occupied"}
+                  <Badge bg={facility.available ? "success" : "danger"} className="me-2">
+                    Availability: {facility.available ? "Available" : "Occupied"}
                   </Badge>
                   <div className="d-flex justify-content-end mt-3">
-                    <Button size="sm" className="btn-orange me-2">
-                      <FaEdit className="text-white" onClick={() => handleShowModal(facility)} />
+                    <Button size="sm" className="btn-orange me-2" onClick={() => handleShowModal(facility)}>
+                      <FaEdit className="text-white" />
                     </Button>
-                    <Button size="sm" className="btn-orange">
-                      <FaTrash className="text-white" onClick={() => handleDeleteFacility(facility.id)} />
+                    <Button size="sm" className="btn-orange" onClick={() => handleDeleteFacility(facility.id)}>
+                      <FaTrash className="text-white" />
                     </Button>
                     {!facility.available && (
-                      <Button size="sm" className="btn-orange mt-2">
+                      <Button
+                        size="sm"
+                        className="btn-orange mt-2"
+                        onClick={() => handleMakeAvailable(facility)}
+                      >
                         Make Available
                       </Button>
                     )}

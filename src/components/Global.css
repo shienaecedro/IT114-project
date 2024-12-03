@@ -47,7 +47,16 @@
   }
   
   .btn-warning {
-    background-color: orange !important;
-    border-color: orange !important;
+    background-color: #ff7f00 !important;
+    border-color: #ff7f00 !important;
+  }
+  .page-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .content-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   

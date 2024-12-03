@@ -3,6 +3,9 @@
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 10px;
+  margin-top: 60px;
+  padding-bottom: 30px;
+  width: 500px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -23,7 +26,7 @@
 }
 
 .profile-picture-container:hover {
-  border-color: #007bff;
+  border-color: #ff7f00;
 }
 
 /* Actual profile picture styling */
@@ -52,20 +55,32 @@
   cursor: pointer;
 }
 
-/* Form and button styling for wider fields */
-form {
-  max-width: 400px;
+/* Form column width */
+.user-profile .form-column {
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
 }
 
+/* Form fields and button styling */
 form .form-control {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
+  margin-bottom: 15px;
 }
 
 form .btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
+  background-color: #ff7f00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+form .btn:hover {
+  background-color:#e67809;
 }

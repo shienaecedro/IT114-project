@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Modal, Pagination } from "react-bootstrap";
+import { Card, Button, Form, Modal, Pagination, Row, Col, Badge } from "react-bootstrap";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa"; // Import FaPlus icon
 import { Item } from "../types";
 import "./Dashboard.css";
 
@@ -12,6 +13,7 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState<Partial<Item>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   const categoryOptions = ["Printer", "Mouse", "Projector"];
   const brandOptions = ["HP", "Logitech", "Epson"];
@@ -35,7 +37,7 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
     } else {
       setItems([
         ...items,
-        { ...currentItem, id: items.length + 1, available: true, borrowed: 0 } as Item, // Initialize borrowed to 0
+        { ...currentItem, id: items.length + 1, available: true, borrowed: 0 } as Item,
       ]);
     }
     handleCloseModal();
@@ -45,54 +47,75 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const itemsPerPage = 5; // You can adjust this value as needed
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCurrentItem({ ...currentItem, image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const itemsPerPage = 9;
   const totalPages = Math.ceil(items.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedItems = items.slice(startIndex, endIndex);
+
+  const filteredItems = selectedCategory
+    ? items.filter((item) => item.category === selectedCategory)
+    : items;
+  const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
   return (
     <div className="container-fluid">
       <h2 className="header-text">Inventory</h2>
-      <div className="pe-2 d-flex justify-content-end mb-3">
-        <Button onClick={() => handleShowModal()}>Add Item</Button>
+      <div className="pe-2 d-flex justify-content-between mb-3">
+        <Form.Select
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          value={selectedCategory}
+          className="w-auto"
+        >
+          <option value="">All Categories</option>
+          {categoryOptions.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </Form.Select>
+        <Button onClick={() => handleShowModal()} className="btn-orange"> {/* Apply orange color */}
+          <FaPlus className="me-2" /> Add Item
+        </Button>
       </div>
-      <div className="d-flex justify-content-center">
-        <Table striped bordered hover className="mx-2">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Category</th>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>Quantity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedItems.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.category}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
-                <td>{item.quantity}</td>
-                <td>
-                  <Button className="mx-2" variant="warning" onClick={() => handleShowModal(item)}>
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteItem(item.id)}
-                  >
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+      <Row>
+        {paginatedItems.map((item) => (
+          <Col key={item.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+            <Card className="small-card">
+              {item.image && <Card.Img variant="top" src={item.image} />}
+              <Card.Body>
+                <Card.Title>{`${item.brand} ${item.model}`}</Card.Title>
+                <Card.Text>
+                  <Badge bg="secondary" className="me-2">
+                    {item.category}
+                  </Badge>
+                  <Badge bg="secondary" className="me-2">
+                    Quantity: {item.quantity}
+                  </Badge>
+                  <div className="d-flex justify-content-end mt-3">
+                    <Button size="sm" className="btn-orange me-2">
+                      <FaEdit className="text-white" onClick={() => handleShowModal(item)} />
+                    </Button>
+                    <Button size="sm" className="btn-orange">
+                      <FaTrash className="text-white" onClick={() => handleDeleteItem(item.id)} />
+                    </Button>
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
 
       <Pagination className="justify-content-center">
         <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
@@ -165,6 +188,13 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
                     quantity: parseInt(e.target.value),
                   })
                 }
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Upload Image</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={handleFileChange}
               />
             </Form.Group>
           </Form>

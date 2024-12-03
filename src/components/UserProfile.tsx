@@ -2,23 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import "./UserProfile.css";
 
+interface User {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  profilePicture: string;
+}
+
 interface UserProfileProps {
-  user: {
-    fullName: string;
-    email: string;
-    address: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    profilePicture: string;
-  } | null; // Allow null initially
-  updateUser: (updatedUser: any) => void;
+  user: User | null; // Allow null initially
+  updateUser: (updatedUser: User) => void;
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
-  const [userInfo, setUserInfo] = useState(() => {
-    // Load from localStorage if available, otherwise use the user prop
+  const defaultUserInfo: User = {
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    profilePicture: "",
+  };
+
+  const [userInfo, setUserInfo] = useState<User>(() => {
     const storedUser = localStorage.getItem("userInfo");
-    return storedUser ? JSON.parse(storedUser) : user || null;
+    return storedUser ? JSON.parse(storedUser) : user || defaultUserInfo;
   });
 
   const [message, setMessage] = useState<string | null>(null);
@@ -26,15 +32,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
   useEffect(() => {
     if (user) {
       setUserInfo(user);
+      localStorage.setItem("userInfo", JSON.stringify(user)); // Keep localStorage in sync
     }
   }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserInfo((prevInfo) => {
-      if (!prevInfo) return null; // Prevent spreading null
-      return { ...prevInfo, [name]: value };
-    });
+    setUserInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,10 +49,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUserInfo((prevInfo) => {
-          if (!prevInfo) return null; // Prevent spreading null
-          return { ...prevInfo, profilePicture: reader.result as string };
-        });
+        if (reader.result) {
+          setUserInfo((prevInfo) => ({
+            ...prevInfo,
+            profilePicture: reader.result as string,
+          }));
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -54,43 +63,27 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (userInfo) {
-      // Save to localStorage
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      updateUser(userInfo);
-
-      // Show confirmation message
+      localStorage.setItem("userInfo", JSON.stringify(userInfo)); // Save to localStorage
+      updateUser(userInfo); // Call the updateUser function
       setMessage("Profile saved successfully!");
       setTimeout(() => setMessage(null), 3000); // Clear message after 3 seconds
     }
   };
 
-  if (!userInfo) {
-    return (
-      <Container className="user-profile">
-        <Row className="justify-content-md-center mt-4">
-          <Col md={6}>
-            <h2>User Profile</h2>
-            <p>Loading user information...</p>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-
   return (
-    <Container className="user-profile">
-      <Row className="justify-content-md-center mt-4">
+    <Container className="user-profile d-flex align-items-center justify-content-center vh-100">
+      <Row className="justify-content-md-center">
         <Col md={6}>
-          <h2>User Profile</h2>
+          <h2 className="text-center">User Profile</h2>
           {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="profilePicture">
-              <div className="profile-picture">
+            <Form.Group controlId="profilePicture" className="text-center">
+              <div className="profile-picture-container">
                 {userInfo.profilePicture ? (
                   <img
                     src={userInfo.profilePicture}
                     alt="Profile"
-                    className="img-thumbnail"
+                    className="profile-picture img-thumbnail"
                   />
                 ) : (
                   <div className="profile-placeholder">Upload Photo</div>
@@ -99,7 +92,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="form-control mt-2"
+                  className="file-input"
+                  aria-label="Upload profile picture"
                 />
               </div>
             </Form.Group>
@@ -121,15 +115,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="address">
-              <Form.Label>Address</Form.Label>
-              <Form.Control
-                type="text"
-                name="address"
-                value={userInfo.address}
-                onChange={handleChange}
-              />
-            </Form.Group>
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
@@ -139,16 +124,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, updateUser }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="dateOfBirth">
-              <Form.Label>Date of Birth</Form.Label>
-              <Form.Control
-                type="date"
-                name="dateOfBirth"
-                value={userInfo.dateOfBirth}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button variant="primary" type="submit" className="mt-3 w-100">
               Save Changes
             </Button>
           </Form>

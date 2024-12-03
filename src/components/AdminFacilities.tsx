@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Modal, Pagination } from "react-bootstrap";
+import { Card, Button, Form, Modal, Pagination, Row, Col, Badge } from "react-bootstrap";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import "./Dashboard.css";
 
 interface Facility {
@@ -7,7 +8,7 @@ interface Facility {
   name: string;
   location: string;
   available: boolean;
-  image?: string; // Add an optional image property
+  image?: string;
 }
 
 interface AdminFacilitiesProps {
@@ -15,10 +16,7 @@ interface AdminFacilitiesProps {
   setFacilities: React.Dispatch<React.SetStateAction<Facility[]>>;
 }
 
-const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
-  facilities,
-  setFacilities,
-}) => {
+const AdminFacilities: React.FC<AdminFacilitiesProps> = ({ facilities, setFacilities }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentFacility, setCurrentFacility] = useState<Partial<Facility>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -36,22 +34,20 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
     if (currentFacility.id) {
       setFacilities(
         facilities.map((facility) =>
-          facility.id === currentFacility.id
-            ? (currentFacility as Facility)
-            : facility
+          facility.id === currentFacility.id ? (currentFacility as Facility) : facility
         )
       );
     } else {
       setFacilities([
         ...facilities,
-        {
-          ...currentFacility,
-          id: facilities.length + 1,
-          available: true,
-        } as Facility,
+        { ...currentFacility, id: facilities.length + 1, available: true } as Facility,
       ]);
     }
     handleCloseModal();
+  };
+
+  const handleDeleteFacility = (id: number) => {
+    setFacilities(facilities.filter((facility) => facility.id !== id));
   };
 
   const handleMakeAvailable = (facility: Facility) => {
@@ -60,10 +56,6 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
         f.id === facility.id ? { ...f, available: true } : f
       )
     );
-  };
-
-  const handleDeleteFacility = (id: number) => {
-    setFacilities(facilities.filter((facility) => facility.id !== id));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,8 +72,7 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
     }
   };
 
-  // Pagination logic
-  const itemsPerPage = 5; // You can adjust this value as needed
+  const itemsPerPage = 9; // Adjust this as needed
   const totalPages = Math.ceil(facilities.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -90,60 +81,44 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
   return (
     <div className="container-fluid">
       <h2 className="header-text">Facilities</h2>
-      <div className="pe-2 d-flex justify-content-end mb-3">
-        <Button onClick={() => handleShowModal()}>Add Facility</Button>
+      <div className="pe-2 d-flex justify-content-between mb-3">
+        <Button onClick={() => handleShowModal()} className="btn-orange">
+          <FaPlus className="me-2" /> Add Facility
+        </Button>
       </div>
-      <div className="d-flex justify-content-center">
-        <Table striped bordered hover className="mx-2">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Available</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedFacilities.map((facility) => (
-              <tr key={facility.id}>
-                <td>{facility.id}</td>
-                <td>{facility.name}</td>
-                <td>{facility.location}</td>
-                <td>{facility.available ? "Yes" : "Occupied"}</td>
-                <td>
-                  {facility.image && (
-                    <img src={facility.image} alt="Facility" width="100" />
-                  )}
-                </td>
-                <td>
-                  <Button className="mx-2"
-                    variant="warning"
-                    onClick={() => handleShowModal(facility)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteFacility(facility.id)}
-                  >
-                    Delete
-                  </Button>
-                  {!facility.available && (
-                    <Button
-                      variant="success"
-                      onClick={() => handleMakeAvailable(facility)}
-                    >
-                      Make Available
+      <Row>
+        {paginatedFacilities.map((facility) => (
+          <Col key={facility.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+            <Card className="small-card">
+              {facility.image && <Card.Img variant="top" src={facility.image} />}
+              <Card.Body>
+                <Card.Title>{facility.name}</Card.Title>
+                <Card.Text>
+                  <Badge bg="secondary" className="me-2">
+                    {facility.location}
+                  </Badge>
+                  <Badge bg="secondary" className="me-2">
+                    Availablity: {facility.available ? "Occupied" : "Occupied"}
+                  </Badge>
+                  <div className="d-flex justify-content-end mt-3">
+                    <Button size="sm" className="btn-orange me-2">
+                      <FaEdit className="text-white" onClick={() => handleShowModal(facility)} />
                     </Button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+                    <Button size="sm" className="btn-orange">
+                      <FaTrash className="text-white" onClick={() => handleDeleteFacility(facility.id)} />
+                    </Button>
+                    {!facility.available && (
+                      <Button size="sm" className="btn-orange mt-2">
+                        Make Available
+                      </Button>
+                    )}
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
 
       <Pagination className="justify-content-center">
         <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
@@ -159,9 +134,7 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {currentFacility.id ? "Edit Facility" : "Add Facility"}
-          </Modal.Title>
+          <Modal.Title>{currentFacility.id ? "Edit Facility" : "Add Facility"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

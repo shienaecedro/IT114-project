@@ -48,3 +48,58 @@ body {
 .header-text {
   margin-bottom: 1rem;
 }
+
+.container-fluid {
+  padding: 15px;
+}
+
+.header-text {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.small-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-orange {
+  background-color: #ff7f00;
+  border: none;
+  color: white;
+}
+
+.btn-orange:hover {
+  background-color: #e67809;
+}
+
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+/* Pagination styling */
+.pagination {
+  justify-content: center;
+}
+
+.page-item .page-link {
+  border: none;
+  color:#ff7f00;
+}
+
+.page-item.active .page-link {
+  background-color: #ff7f00;
+  border: none;
+  color: white;
+}
+
+.page-item .page-link:hover {
+  background-color: #ff7f00;
+  border: none;
+  color: white;
+}
+
+

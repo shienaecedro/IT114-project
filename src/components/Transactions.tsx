@@ -78,28 +78,30 @@ const Transactions: React.FC = () => {
       <Row className="justify-content-center">
         <Col md={10} className="content-card">
           <h1 className="page-title">Transactions</h1>
-          <Table bordered hover responsive className="transaction-table">
-            <thead>
-              <tr>
-                <th>Item Category</th>
-                <th>Item Brand</th>
-                <th>Item Model</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction.id}>
-                  <td>{transaction.item.category}</td>
-                  <td>{transaction.item.brand}</td>
-                  <td>{transaction.item.model}</td>
-                  <td>{transaction.date}</td>
-                  <td>{transaction.status}</td>
+          <div className="table-responsive">
+            <Table bordered hover className="transaction-table mx-2">
+              <thead>
+                <tr>
+                  <th>Item Category</th>
+                  <th>Item Brand</th>
+                  <th>Item Model</th>
+                  <th>Date</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((transaction) => (
+                  <tr key={transaction.id}>
+                    <td>{transaction.item.category}</td>
+                    <td>{transaction.item.brand}</td>
+                    <td>{transaction.item.model}</td>
+                    <td>{transaction.date}</td>
+                    <td>{transaction.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </Col>
       </Row>
     </Container>

@@ -7,6 +7,7 @@ export interface Item {
   model: string;
   quantity: number;
   available: boolean;
+  image?: string;
 }
 
 export interface Facility {

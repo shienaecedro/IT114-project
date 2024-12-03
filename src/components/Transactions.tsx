@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Form } from "react-bootstrap";
 import "./Global.css"; // Import global styles
 
 interface ItemDetails {
@@ -17,6 +17,8 @@ interface Transaction {
 
 const Transactions: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
 
   useEffect(() => {
     const savedTransactions = localStorage.getItem("transactions");
@@ -25,17 +27,58 @@ const Transactions: React.FC = () => {
     }
   }, []);
 
+  // Filter logic
+  const filteredTransactions = transactions.filter((transaction) => {
+    return (
+      (selectedCategory === "" || transaction.item.category === selectedCategory) &&
+      (selectedBrand === "" || transaction.item.brand === selectedBrand)
+    );
+  });
+
+  // Get unique categories and brands for the filter options
+  const uniqueCategories = Array.from(new Set(transactions.map((transaction) => transaction.item.category)));
+  const uniqueBrands = Array.from(new Set(transactions.map((transaction) => transaction.item.brand)));
+
   return (
-    <Container className="page-container">
-      <Row>
-        <Col md={12} className="content-card">
+    <Container className="page-container mx-2">
+      <Row className="mb-3 justify-content-end">
+        <Col md="auto">
+          <Form.Group controlId="categoryFilter">
+            <Form.Label>Filter by Category</Form.Label>
+            <Form.Select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              {uniqueCategories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col md="auto">
+          <Form.Group controlId="brandFilter">
+            <Form.Label>Filter by Brand</Form.Label>
+            <Form.Select
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+            >
+              <option value="">All Brands</option>
+              {uniqueBrands.map((brand, index) => (
+                <option key={index} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={10} className="content-card">
           <h1 className="page-title">Transactions</h1>
-          <Table
-            bordered
-            hover
-            responsive
-            className="transaction-table wider-table"
-          >
+          <Table bordered hover responsive className="transaction-table">
             <thead>
               <tr>
                 <th>Item Category</th>
@@ -46,7 +89,7 @@ const Transactions: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction) => (
+              {filteredTransactions.map((transaction) => (
                 <tr key={transaction.id}>
                   <td>{transaction.item.category}</td>
                   <td>{transaction.item.brand}</td>

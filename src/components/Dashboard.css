@@ -1,14 +1,50 @@
-/* Dashboard.css */
-.header-text {
-  color: orange; /* Change text color to orange */
-  font-size: 24px; /* Ensure uniform font size */
-  font-weight: bold; /* Make the text bold */
-  margin-bottom: 20px; /* Add some space below the header */
+/* Global styles */
+body {
+  background-color: #fff; /* Set background to white */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-.no-transactions {
-  color: orange; /* Change text color to orange */
-  font-size: 24px; /* Larger font size */
-  text-align: center; /* Center the text */
-  margin-top: 50px; /* Add some space above the message */
+/* Container styles */
+#layoutSidenav_content {
+  background-color: #fff !important; /* Set background to white for entire layout content */
+  min-height: 100vh; /* Ensure it covers the full height */
+}
+
+/* Specific component styles */
+.container-fluid {
+  padding: 2rem;
+  background-color: #fff; /* Set background to white */
+}
+
+/* Card styles */
+.card {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  font-size: 1.25rem;
+}
+
+.card-footer {
+  font-size: 1rem;
+}
+
+/* Breadcrumb styles */
+.breadcrumb {
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+/* Header text styles */
+.header-text {
+  margin-bottom: 1rem;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Modal } from "react-bootstrap";
+import { Table, Button, Form, Modal, Pagination } from "react-bootstrap";
 import { Item } from "../types";
 import "./Dashboard.css";
 
@@ -11,9 +11,10 @@ interface AdminItemsProps {
 const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState<Partial<Item>>({});
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const categoryOptions = ["Printer", "Mouse", "Projector"]; // Define your category options here
-  const brandOptions = ["HP", "Logitech", "Epson"]; // Define your brand options here
+  const categoryOptions = ["Printer", "Mouse", "Projector"];
+  const brandOptions = ["HP", "Logitech", "Epson"];
 
   const handleShowModal = (item?: Item) => {
     setCurrentItem(item || {});
@@ -34,7 +35,7 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
     } else {
       setItems([
         ...items,
-        { ...currentItem, id: items.length + 1, available: true } as Item,
+        { ...currentItem, id: items.length + 1, available: true, borrowed: 0 } as Item, // Initialize borrowed to 0
       ]);
     }
     handleCloseModal();
@@ -44,46 +45,66 @@ const AdminItems: React.FC<AdminItemsProps> = ({ items, setItems }) => {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const itemsPerPage = 5; // You can adjust this value as needed
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedItems = items.slice(startIndex, endIndex);
+
   return (
-    <div>
-      <h2 className="header-text">Manage Items</h2>
-      <Button onClick={() => handleShowModal()}>Add Item</Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Category</th>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Quantity</th>
-            <th>Available</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.category}</td>
-              <td>{item.brand}</td>
-              <td>{item.model}</td>
-              <td>{item.quantity}</td>
-              <td>{item.available ? "Yes" : "No"}</td>
-              <td>
-                <Button variant="warning" onClick={() => handleShowModal(item)}>
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDeleteItem(item.id)}
-                >
-                  Delete
-                </Button>
-              </td>
+    <div className="container-fluid">
+      <h2 className="header-text">Inventory</h2>
+      <div className="pe-2 d-flex justify-content-end mb-3">
+        <Button onClick={() => handleShowModal()}>Add Item</Button>
+      </div>
+      <div className="d-flex justify-content-center">
+        <Table striped bordered hover className="mx-2">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Quantity</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {paginatedItems.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.category}</td>
+                <td>{item.brand}</td>
+                <td>{item.model}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  <Button className="mx-2" variant="warning" onClick={() => handleShowModal(item)}>
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteItem(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+
+      <Pagination className="justify-content-center">
+        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)}>
+            {i + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+      </Pagination>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

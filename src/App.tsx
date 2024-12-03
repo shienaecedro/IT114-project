@@ -31,7 +31,6 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
 }) => {
   return (
     <div className="sidebar d-flex flex-column bg-dark text-light vh-100">
-      <h2 className="text-center mt-4">TechTrack</h2>
       <Nav className="flex-column mt-5">
         <Nav.Item>
           <Nav.Link as={Link} to="/dashboard" className="text-light">
@@ -42,12 +41,12 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
           <>
             <Nav.Item>
               <Nav.Link as={Link} to="/admin/items" className="text-light">
-                Manage Items
+                Items
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/admin/facilities" className="text-light">
-                Manage Facilities
+                Facilities
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -56,7 +55,7 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
                 to="/admin/transactions"
                 className="text-light"
               >
-                View Transactions
+                Transactions
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -83,7 +82,7 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
                 to="/user/book-facilities"
                 className="text-light"
               >
-                Book Facilities
+                Book Facility
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -92,7 +91,7 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
                 to="/user/return-items"
                 className="text-light"
               >
-                Return Items
+                Returns
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -101,7 +100,7 @@ const Sidebar: React.FC<{ role: string; onLogout: () => void }> = ({
                 to="/user/transactions"
                 className="text-light"
               >
-                View Transactions
+                Transactions
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -230,8 +229,6 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      {isLoggedIn && <DashboardHeader />}{" "}
-      {/* Display DashboardHeader when logged in */}
       <div className="d-flex">
         {isLoggedIn && role && <Sidebar role={role} onLogout={handleLogout} />}
         <div className="flex-grow-1">
@@ -380,5 +377,7 @@ const App: React.FC = () => {
     </Router>
   );
 };
+
+
 
 export default App;

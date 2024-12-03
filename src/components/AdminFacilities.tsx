@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Form, Modal } from "react-bootstrap";
+import { Table, Button, Form, Modal, Pagination } from "react-bootstrap";
 import "./Dashboard.css";
 
 interface Facility {
@@ -21,6 +21,7 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentFacility, setCurrentFacility] = useState<Partial<Facility>>({});
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleShowModal = (facility?: Facility) => {
     setCurrentFacility(facility || {});
@@ -79,59 +80,82 @@ const AdminFacilities: React.FC<AdminFacilitiesProps> = ({
     }
   };
 
+  // Pagination logic
+  const itemsPerPage = 5; // You can adjust this value as needed
+  const totalPages = Math.ceil(facilities.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedFacilities = facilities.slice(startIndex, endIndex);
+
   return (
-    <div>
-      <h2 className="header-text">Manage Facilities</h2>
-      <Button onClick={() => handleShowModal()}>Add Facility</Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Available</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {facilities.map((facility) => (
-            <tr key={facility.id}>
-              <td>{facility.id}</td>
-              <td>{facility.name}</td>
-              <td>{facility.location}</td>
-              <td>{facility.available ? "Yes" : "Occupied"}</td>
-              <td>
-                {facility.image && (
-                  <img src={facility.image} alt="Facility" width="100" />
-                )}
-              </td>
-              <td>
-                <Button
-                  variant="warning"
-                  onClick={() => handleShowModal(facility)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDeleteFacility(facility.id)}
-                >
-                  Delete
-                </Button>
-                {!facility.available && (
-                  <Button
-                    variant="success"
-                    onClick={() => handleMakeAvailable(facility)}
-                  >
-                    Make Available
-                  </Button>
-                )}
-              </td>
+    <div className="container-fluid">
+      <h2 className="header-text">Facilities</h2>
+      <div className="pe-2 d-flex justify-content-end mb-3">
+        <Button onClick={() => handleShowModal()}>Add Facility</Button>
+      </div>
+      <div className="d-flex justify-content-center">
+        <Table striped bordered hover className="mx-2">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Available</th>
+              <th>Image</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {paginatedFacilities.map((facility) => (
+              <tr key={facility.id}>
+                <td>{facility.id}</td>
+                <td>{facility.name}</td>
+                <td>{facility.location}</td>
+                <td>{facility.available ? "Yes" : "Occupied"}</td>
+                <td>
+                  {facility.image && (
+                    <img src={facility.image} alt="Facility" width="100" />
+                  )}
+                </td>
+                <td>
+                  <Button className="mx-2"
+                    variant="warning"
+                    onClick={() => handleShowModal(facility)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteFacility(facility.id)}
+                  >
+                    Delete
+                  </Button>
+                  {!facility.available && (
+                    <Button
+                      variant="success"
+                      onClick={() => handleMakeAvailable(facility)}
+                    >
+                      Make Available
+                    </Button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+
+      <Pagination className="justify-content-center">
+        <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)}>
+            {i + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+      </Pagination>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

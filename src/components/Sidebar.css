@@ -1,10 +1,48 @@
+/* Sidebar CSS */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: #343a40;
+  color: #fff;
+  height: 100vh;
+}
+
 .sidebar-logo {
-    width: 100px; /* Adjust size as needed */
-    height: auto;
-    margin-bottom: 20px; /* Add some space below the logo */
-  }
-  
-  .active-link {
-    background-color: orange;
-  }
-  
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+}
+
+.nav-link {
+  color: #fff;
+  padding: 10px 15px;
+}
+
+.nav-link:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+.active-link {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.sb-sidenav-menu {
+  flex-grow: 1;
+}
+
+.sb-sidenav-footer {
+  padding: 1rem;
+  background-color: #343a40;
+  text-align: center;
+}
+
+.sb-nav-link-icon {
+  margin-right: 10px;
+}
+
+/* Additional styling for icons */
+.sb-nav-link-icon i {
+  font-size: 1rem;
+  vertical-align: middle;
+}

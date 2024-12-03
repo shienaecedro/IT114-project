@@ -5,7 +5,7 @@ import ChatIcon from "./ChatIcon";
 import { Item } from "../types";
 import "./Login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from '../assets/logo.png'; // Import your logo image
+import logo from '../assets/logo.png';
 
 interface LoginProps {
   onLogin: (username: string, userRole: string) => void;

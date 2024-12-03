@@ -16,7 +16,7 @@ const DashboardHeader: React.FC = () => {
     <Container fluid className="p-3 bg-light">
       <InputGroup className="search-bar">
         <FormControl
-          placeholder="Search..."
+          placeholder="Search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

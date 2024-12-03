@@ -18,7 +18,7 @@ const UserTransactions: React.FC<UserTransactionsProps> = ({
 
   return (
     <div>
-      <h2 className="header-text">Previous Transactions</h2>
+      <h2 className="header-text">Transaction History</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
